@@ -28,10 +28,68 @@ describe DockerfileParser do
   end
 
   describe "parsing an empty Dockerfile" do
-    docerfile = DockerfileParser.load("#{__DIR__}/fixture/Dockerfile.empty")
+    dockerfile = DockerfileParser.load("#{__DIR__}/fixture/Dockerfile.empty")
 
     it "has a predictable output" do
-      docerfile.should eq([] of NamedTuple(command: String))
+      dockerfile.should eq([] of NamedTuple(command: String))
+    end
+  end
+
+  describe "parsing nginx example" do
+    dockerfile = DockerfileParser.load("#{__DIR__}/fixture/Dockerfile.nginx_example")
+
+    it "has a predictable output" do
+      dockerfile.should eq([
+        {command: "FROM", params: ["ubuntu"]},
+        {command: "MAINTAINER", params: "Victor Vieux <victor@docker.com>"},
+        {command: "LABEL", params: "Description=\"This image is used to start the foobar executable\" Vendor=\"ACME Products\" Version=\"1.0\""},
+        {command: "RUN", params: [
+            ["apt-get", "update"],
+            ["&"],
+            ["apt-get", "install", "-y", "inotify-tools", "nginx", "apache2", "openssh-server"]
+          ]
+        }
+      ])
+    end
+  end
+
+  describe "parsing Firefox over VNC example" do
+    dockerfile = DockerfileParser.load("#{__DIR__}/fixture/Dockerfile.firefox_over_vnc_example")
+
+    it "has a predictable output" do
+      dockerfile.should eq([
+        {command: "FROM", params: ["ubuntu#Installvnc,xvfbinordertocreatea'fake'displayandfirefox"]},
+        {command: "RUN", params: [
+          ["apt-get", "update"], ["&"], ["apt-get", "install", "-y", "x11vnc", "xvfb", "firefox"]
+        ]},
+        {command: "RUN", params: [
+          ["mkdir", "~/.vnc", "#", "Setup", "a", "password"]
+        ]},
+        {command: "RUN", params: [
+          ["x11vnc", "-storepasswd", "1234", "~/.vnc/passwd", "#", "Autostart", "firefox", "(might", "not", "be", "the", "best", "way,", "but", "it", "does", "the", "trick)"]
+        ]},
+        {command: "RUN", params: [
+          ["bash", "-c", "'echo", "\"firefox\"", ">>", "/.bashrc'"]
+        ]}, {command: "EXPOSE", params: "5900"},
+        {command: "CMD", params: ["x11vnc", "-forever", "-usepw", "-create"]}
+      ])
+    end
+  end
+
+  describe "parsing multiple images example" do
+    dockerfile = DockerfileParser.load("#{__DIR__}/fixture/Dockerfile.multiple_images_example")
+
+    it "has a predictable output" do
+      dockerfile.should eq([
+        {command: "FROM", params: ["ubuntu"]},
+        {command: "RUN", params: [
+          ["echo", "foo", ">", "bar", "#", "Will", "output", "something", "like", "===>", "907ad6c2736f"]
+        ]},
+        {command: "FROM", params: ["ubuntu"]},
+        {command: "RUN", params: [
+          ["echo", "moo", ">", "oink", "#", "Will", "output", "something", "like", "===>", "695d7793cbe4", "#", "You᾿ll", "now", "have", "two", "images,", "907ad6c2736f", "with", "/bar,", "and", "695d7793cbe4", "with", "#", "/oink."]
+        ]}
+      ])
     end
   end
 end
