@@ -7,8 +7,9 @@ require "yaml"
 
 # DockerfileParser main class
 class DockerfileParser
-  COMMANDS = {"FROM", "MAINTAINER", "RUN", "CMD", "EXPOSE", "ENV", "ADD", "COPY", "ENTRYPOINT",
-                 "VOLUME", "USER", "WORKDIR", "ONBUILD"}
+  COMMANDS = {"FROM", "MAINTAINER", "RUN", "CMD", "LABEL", "EXPOSE", "ENV",
+    "ADD", "COPY", "ENTRYPOINT", "VOLUME", "USER", "WORKDIR", "ARG", "ONBUILD",
+    "STOPSIGNAL", "HEALTHCHECK", "SHELL"}
 
   # Parse Dockerfile from specified path
   # @return [Array<Hash>] parser Dockerfile
