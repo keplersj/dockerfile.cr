@@ -58,15 +58,15 @@ describe DockerfileParser do
 
     it "has a predictable output" do
       dockerfile.should eq([
-        {command: "FROM", params: ["ubuntu#Installvnc,xvfbinordertocreatea'fake'displayandfirefox"]},
+        {command: "FROM", params: ["ubuntu"]},
         {command: "RUN", params: [
           ["apt-get", "update"], ["&"], ["apt-get", "install", "-y", "x11vnc", "xvfb", "firefox"]
         ]},
         {command: "RUN", params: [
-          ["mkdir", "~/.vnc", "#", "Setup", "a", "password"]
+          ["mkdir", "~/.vnc"]
         ]},
         {command: "RUN", params: [
-          ["x11vnc", "-storepasswd", "1234", "~/.vnc/passwd", "#", "Autostart", "firefox", "(might", "not", "be", "the", "best", "way,", "but", "it", "does", "the", "trick)"]
+          ["x11vnc", "-storepasswd", "1234", "~/.vnc/passwd"]
         ]},
         {command: "RUN", params: [
           ["bash", "-c", "'echo", "\"firefox\"", ">>", "/.bashrc'"]
@@ -83,11 +83,11 @@ describe DockerfileParser do
       dockerfile.should eq([
         {command: "FROM", params: ["ubuntu"]},
         {command: "RUN", params: [
-          ["echo", "foo", ">", "bar", "#", "Will", "output", "something", "like", "===>", "907ad6c2736f"]
+          ["echo", "foo", ">", "bar"]
         ]},
         {command: "FROM", params: ["ubuntu"]},
         {command: "RUN", params: [
-          ["echo", "moo", ">", "oink", "#", "Will", "output", "something", "like", "===>", "695d7793cbe4", "#", "You᾿ll", "now", "have", "two", "images,", "907ad6c2736f", "with", "/bar,", "and", "695d7793cbe4", "with", "#", "/oink."]
+          ["echo", "moo", ">", "oink"]
         ]}
       ])
     end
