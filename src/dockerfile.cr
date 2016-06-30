@@ -6,16 +6,16 @@ require "yaml"
 
 # DockerfileParser main class
 class DockerfileParser
-  @commands = %w(FROM MAINTAINER RUN CMD EXPOSE ENV ADD COPY ENTRYPOINT
+  COMMANDS = %w(FROM MAINTAINER RUN CMD EXPOSE ENV ADD COPY ENTRYPOINT
                  VOLUME USER WORKDIR ONBUILD)
 
   # Parse Dockerfile from specified path
   # @return [Array<Hash>] parser Dockerfile
   def self.load(path)
-    dockerfile_array = split_dockerfile(File.open(path).read)
+    dockerfile_array = split_dockerfile(File.read(path))
     parse_commands(dockerfile_array).each_cons(2).map do |item|
       process_steps(dockerfile_array, item[0], item[1][:index])
-    end
+    end.to_a
   end
 
   private def self.split_dockerfile(str)
@@ -23,9 +23,9 @@ class DockerfileParser
   end
 
   private def self.parse_commands(dockerfile_array)
-    dockerfile_array.each_with_index.map do |cmd, index|
-      { index: index, command: cmd } if @commands.include?(cmd)
-    end.compact! << { index: dockerfile_array.length, command: "EOF" }
+    dockerfile_array.map_with_index do |cmd, index|
+      { index: index, command: cmd } if COMMANDS.includes?(cmd)
+    end.compact << { index: dockerfile_array.size, command: "EOF" }
   end
 
   private def self.process_steps(dockerfile_array, step, next_cmd_index)
@@ -40,13 +40,15 @@ class DockerfileParser
   private def self.split_params(cmd, params)
     case cmd
     when "FROM" then params.join("").split(":")
-    when "RUN" then params.join(" ").split(/\s(\&|\;)+\s/).map(&:strip)
+    when "RUN" then params.join(" ").split(/\s(\&|\;)+\s/).map do |param|
+      param.split
+    end
     when "ENV" then
       { name: params[0], value: params[1..-1].join(" ") }
     when "COPY", "ADD" then { src: params[0], dst: params[1] }
     else
       params = params.join(' ') if params.is_a?(Array)
-      YAML.load(params.to_s)
+      YAML.parse(params.to_s)
     end
   end
 end
