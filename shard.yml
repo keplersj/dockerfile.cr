@@ -1,0 +1,8 @@
+name: dockerfile
+version: 0.1.0
+
+authors:
+  - Nikolay Yurin <yurinnick@outlook.com>
+  - Kepler Sticka-Jones <kepler@stickajones.org>
+
+license: MIT
