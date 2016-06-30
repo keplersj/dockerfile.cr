@@ -2,6 +2,8 @@
 # @author Nikolay Yurin <yurinnick@outlook.com>
 # Ported to Crystal by Kepler Sticka-Jones <kepler@stickajones.org>
 
+require "./dockerfile/*"
+
 require "yaml"
 
 # DockerfileParser main class
