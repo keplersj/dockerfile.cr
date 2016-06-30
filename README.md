@@ -1,6 +1,8 @@
 dockerfile.cr
 =============
 
+[![Travis master](https://img.shields.io/travis/keplersj/dockerfile.cr/master.svg?maxAge=2592000?style=flat-square)](https://travis-ci.org/keplersj/dockerfile.cr)
+
 Dockerfile parser library, ported from [@yurinnick](https://github.com/yurinnick)'s [Ruby library](https://github.com/yurinnick/ruby-dockerfile-parser).
 
 ## Installation
