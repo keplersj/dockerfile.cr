@@ -1,4 +1,3 @@
-# Encoding: utf-8
 # @author Nikolay Yurin <yurinnick@outlook.com>
 # Ported to Crystal by Kepler Sticka-Jones <kepler@stickajones.org>
 
@@ -8,8 +7,8 @@ require "yaml"
 
 # DockerfileParser main class
 class DockerfileParser
-  COMMANDS = %w(FROM MAINTAINER RUN CMD EXPOSE ENV ADD COPY ENTRYPOINT
-                 VOLUME USER WORKDIR ONBUILD)
+  COMMANDS = {"FROM", "MAINTAINER", "RUN", "CMD", "EXPOSE", "ENV", "ADD", "COPY", "ENTRYPOINT",
+                 "VOLUME", "USER", "WORKDIR", "ONBUILD"}
 
   # Parse Dockerfile from specified path
   # @return [Array<Hash>] parser Dockerfile
