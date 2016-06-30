@@ -1,9 +1,8 @@
-/.bundle/
-/.yardoc
-/Gemfile.lock
-/_yardoc/
-/coverage/
 /doc/
-/pkg/
-/spec/reports/
-/tmp/
+/libs/
+/.crystal/
+/.shards/
+
+# Libraries don't need dependency lock
+# Dependencies will be locked in application that uses them
+/shard.lock
