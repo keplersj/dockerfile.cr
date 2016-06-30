@@ -2,6 +2,7 @@ dockerfile.cr
 =============
 
 [![Travis master](https://img.shields.io/travis/keplersj/dockerfile.cr/master.svg?maxAge=2592000?style=flat-square)](https://travis-ci.org/keplersj/dockerfile.cr)
+[![docrystal.org](http://docrystal.org/badge.svg)](http://docrystal.org/github.com/keplersj/dockerfile.cr)
 
 Dockerfile parser library, ported from [@yurinnick](https://github.com/yurinnick)'s [Ruby library](https://github.com/yurinnick/ruby-dockerfile-parser).
 
@@ -20,7 +21,6 @@ dependencies:
 example.cr
 
 ```crystal
-
 require 'dockerfile'
 
 puts DockerfileParser.load('Dockerfile')
@@ -29,7 +29,6 @@ puts DockerfileParser.load('Dockerfile')
 Dockerfile
 
 ```Dockerfile
-
 FROM debian:jessie
 MAINTAINER Nikolay Yurin <yurinnick@outlook.com>
 
