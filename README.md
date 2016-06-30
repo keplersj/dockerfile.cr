@@ -1,8 +1,6 @@
 Dockerfile_parser
 ==================
 
-[![Code Climate](https://codeclimate.com/github/yurinnick/ruby-dockerfile-parser/badges/gpa.svg)](https://codeclimate.com/github/yurinnick/ruby-dockerfile-parser)
-
 Dockerfile parser gem written on pure Ruby, outputs Array of Hashes. See example below.
 
 ## Installation
@@ -61,15 +59,15 @@ output
 [
     {:command=>"FROM",       :params=>["debian", "jessie"]}
     {:command=>"MAINTAINER", :params=>"Nikolay Yurin <yurinnick@outlook.com>"}
-    {:command=>"RUN",        :params=>["apt-get update", 
+    {:command=>"RUN",        :params=>["apt-get update",
                                        "apt-get install -y nginx"]}
-    {:command=>"RUN",        :params=>["rm -rf /var/lib/apt/lists/*", 
+    {:command=>"RUN",        :params=>["rm -rf /var/lib/apt/lists/*",
                                        "chown -R www-data:www-data /var/lib/nginx"]}
     {:command=>"VOLUME",     :params=>"/var/www/html"}
     {:command=>"WORKDIR",    :params=>"/etc/nginx"}
-    {:command=>"COPY",       :params=>{:src=>"site-example.conf", 
+    {:command=>"COPY",       :params=>{:src=>"site-example.conf",
                                        :dst=>"/etc/nginx/sites-available/site-example.conf"}}
-    {:command=>"COPY",       :params=>{:src=>"index.html", 
+    {:command=>"COPY",       :params=>{:src=>"index.html",
                                        :dst=>"/var/www/html/index.html"}}
     {:command=>"EXPOSE",     :params=>80}
     {:command=>"CMD",        :params=>["nginx", "-g", "daemon off;"]}
